@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard | Kaveri Parking</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">K</span><div><strong>KAVERI</strong><small>Parking Management</small></div></div>
+  <div class="nav-label">WORKSPACE</div>
+  <a href="index.html" data-page="dashboard">▦ <span>Dashboard</span></a>
+  <a href="vehicles.html" data-page="vehicles">🚘 <span>Vehicles</span></a>
+  <a href="slots.html" data-page="slots">▤ <span>Parking Slots</span></a>
+  <a href="entry.html" data-page="entry">↘ <span>Vehicle Entry</span></a>
+  <a href="exit.html" data-page="exit">↗ <span>Vehicle Exit</span></a>
+  <a href="history.html" data-page="history">◷ <span>Parking History</span></a>
+  <div class="sidebar-foot">Built with care by <b>Kaveri</b></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><div><div class="eyebrow">KAVERI / PARKING LOT MANAGEMENT</div><h1>Dashboard</h1></div><div class="top-right"><span class="live-dot"></span><span>Local System</span><span class="avatar">K</span></div></header>
+
+<section class="welcome panel">
+  <div><p class="eyebrow light">PARKING OVERVIEW</p><h2>Welcome back, Kaveri!</h2><p>Manage vehicles, parking slots and daily activity from one place.</p>
+  <div class="welcome-actions"><a class="btn btn-light" href="entry.html">＋ Vehicle Entry</a><a class="btn btn-outline-light" href="history.html">View History</a></div></div>
+  <div class="welcome-art"><div class="road">P <span>↗</span> P</div><div class="car">🚙</div><div class="parking-lines"></div></div>
+</section>
+<section class="stats-grid">
+  <article class="stat-card"><div class="stat-icon blue">▤</div><div class="stat-label">Total Slots</div><div class="stat-value" id="totalSlots">—</div><div class="stat-note">Registered parking spaces</div></article>
+  <article class="stat-card"><div class="stat-icon green">✓</div><div class="stat-label">Available Slots</div><div class="stat-value" id="availableSlots">—</div><div class="stat-note">Ready for parking</div></article>
+  <article class="stat-card"><div class="stat-icon orange">▣</div><div class="stat-label">Occupied Slots</div><div class="stat-value" id="occupiedSlots">—</div><div class="stat-note">Currently in use</div></article>
+  <article class="stat-card"><div class="stat-icon purple">₹</div><div class="stat-label">Total Collection</div><div class="stat-value" id="totalIncome">₹0</div><div class="stat-note">Completed parking records</div></article>
+</section>
+<section class="content-grid">
+  <article class="panel"><div class="panel-head"><div><h3>Quick Actions</h3><p>Common parking operations</p></div></div>
+    <div class="quick-grid"><a class="quick-action" href="vehicles.html"><span>🚘</span><b>Manage Vehicles</b><small>Add or update vehicle details</small></a><a class="quick-action" href="slots.html"><span>🅿️</span><b>Manage Slots</b><small>Maintain parking spaces</small></a><a class="quick-action" href="entry.html"><span>↘</span><b>Vehicle Entry</b><small>Assign an available slot</small></a><a class="quick-action" href="exit.html"><span>↗</span><b>Vehicle Exit</b><small>Calculate parking fee</small></a></div>
+  </article>
+  <article class="panel"><div class="panel-head"><div><h3>Database Connection</h3><p>Live MySQL connection status</p></div><button class="btn btn-small btn-secondary" onclick="checkConnection()">Test again</button></div><div id="connectionStatus" class="connection-status">Checking database...</div><div class="mini-info"><span>Schema</span><b>users</b></div><div class="mini-info"><span>Tables</span><b>4 existing tables</b></div></article>
+</section>
+<section class="panel"><div class="panel-head"><div><h3>Currently Parked</h3><p>Vehicles that have not checked out yet</p></div><a class="text-link" href="history.html">See history →</a></div><div class="table-wrap"><table><thead><tr><th>Vehicle</th><th>Type</th><th>Slot</th><th>Entry Time</th></tr></thead><tbody id="activeTable"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody></table></div></section>
+
+</main>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>

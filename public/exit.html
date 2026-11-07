@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vehicle Exit | Kaveri Parking</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">K</span><div><strong>KAVERI</strong><small>Parking Management</small></div></div>
+  <div class="nav-label">WORKSPACE</div>
+  <a href="index.html" data-page="dashboard">▦ <span>Dashboard</span></a>
+  <a href="vehicles.html" data-page="vehicles">🚘 <span>Vehicles</span></a>
+  <a href="slots.html" data-page="slots">▤ <span>Parking Slots</span></a>
+  <a href="entry.html" data-page="entry">↘ <span>Vehicle Entry</span></a>
+  <a href="exit.html" data-page="exit">↗ <span>Vehicle Exit</span></a>
+  <a href="history.html" data-page="history">◷ <span>Parking History</span></a>
+  <div class="sidebar-foot">Built with care by <b>Kaveri</b></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><div><div class="eyebrow">KAVERI / PARKING LOT MANAGEMENT</div><h1>Vehicle Exit</h1></div><div class="top-right"><span class="live-dot"></span><span>Local System</span><span class="avatar">K</span></div></header>
+
+<section class="two-col">
+<article class="panel form-panel"><div class="panel-head"><div><h3>Complete Vehicle Exit</h3><p>Select a currently parked vehicle</p></div></div>
+<form id="exitForm" class="stack-form"><label>Parked Vehicle<select id="exit_vehicle" required><option value="">Loading active vehicles...</option></select></label><button class="btn btn-primary" type="submit">Calculate Fee & Exit</button></form><div id="exitResult" class="result-box hidden"></div></article>
+<article class="panel guidance"><div class="big-icon">🧾</div><h3>Parking Fee Rules</h3><p>Parking time is calculated from entry to exit. Any partial hour is rounded up, with a minimum charge of one hour.</p><div class="rate-line"><span>Car</span><b>₹20 / hour</b></div><div class="rate-line"><span>Bike</span><b>₹10 / hour</b></div><p class="muted small">The slot is automatically marked Available after successful exit.</p></article>
+</section>
+
+</main>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>

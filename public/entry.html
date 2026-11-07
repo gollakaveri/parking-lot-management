@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Entry - Parking Management</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f3f5f9;
+            color: #222;
+        }
+
+        .header {
+            background: #172554;
+            color: white;
+            padding: 20px 30px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: 45px auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 3px 15px #00000012;
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            color: #172554;
+        }
+
+        label {
+            display: block;
+            margin: 18px 0 8px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+            background: white;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 7px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        button:disabled {
+            background: #888;
+            cursor: not-allowed;
+        }
+
+        #message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            display: none;
+        }
+
+        .success {
+            display: block !important;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .error {
+            display: block !important;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2 style="color:white;margin:0">
+            Kaveri Parking Lot Management
+        </h2>
+    </div>
+
+    <div class="container">
+        <div class="card">
+
+            <h2>Vehicle Entry</h2>
+
+            <form id="entryForm">
+
+                <label for="entry_vehicle">
+                    Select Vehicle
+                </label>
+
+                <select id="entry_vehicle" required>
+                    <option value="">Loading vehicles...</option>
+                </select>
+
+                <label for="entry_slot">
+                    Select Available Parking Slot
+                </label>
+
+                <select id="entry_slot" required>
+                    <option value="">Select vehicle first</option>
+                </select>
+
+                <button type="submit" id="entryButton">
+                    Confirm Vehicle Entry
+                </button>
+
+            </form>
+
+            <div id="message"></div>
+
+            <a href="index.html" class="back">
+                ← Back to Dashboard
+            </a>
+
+        </div>
+    </div>
+
+    <script>
+        const vehicleDropdown =
+            document.getElementById("entry_vehicle");
+
+        const slotDropdown =
+            document.getElementById("entry_slot");
+
+        const message =
+            document.getElementById("message");
+
+        const entryButton =
+            document.getElementById("entryButton");
+
+        let vehicles = [];
+        let slots = [];
+
+        function showMessage(text, type) {
+            message.textContent = text;
+            message.className = type;
+        }
+
+        async function loadEntryOptions() {
+            try {
+                vehicleDropdown.innerHTML =
+                    '<option value="">Loading vehicles...</option>';
+
+                slotDropdown.innerHTML =
+                    '<option value="">Select vehicle first</option>';
+
+                const [vehicleResponse, slotResponse] =
+                    await Promise.all([
+                        fetch("/api/vehicles"),
+                        fetch("/api/slots")
+                    ]);
+
+                if (!vehicleResponse.ok) {
+                    throw new Error("Unable to load vehicles");
+                }
+
+                if (!slotResponse.ok) {
+                    throw new Error("Unable to load parking slots");
+                }
+
+                vehicles = await vehicleResponse.json();
+                slots = await slotResponse.json();
+
+                vehicleDropdown.innerHTML =
+                    '<option value="">Select Vehicle</option>';
+
+                vehicles.forEach(vehicle => {
+                    const option = document.createElement("option");
+
+                    option.value = vehicle.vehicle_id;
+
+                    option.textContent =
+                        vehicle.vehicle_number + " - " +
+                        vehicle.vehicle_type + " - " +
+                        (vehicle.owner_name || "Owner");
+
+                    vehicleDropdown.appendChild(option);
+                });
+
+                if (vehicles.length === 0) {
+                    vehicleDropdown.innerHTML =
+                        '<option value="">No vehicles found</option>';
+                }
+
+            } catch (error) {
+                vehicleDropdown.innerHTML =
+                    '<option value="">Unable to load vehicles</option>';
+
+                showMessage(error.message, "error");
+                console.error(error);
+            }
+        }
+
+        vehicleDropdown.addEventListener("change", function () {
+
+            const selectedVehicle = vehicles.find(
+                v => String(v.vehicle_id) === vehicleDropdown.value
+            );
+
+            slotDropdown.innerHTML =
+                '<option value="">Select Available Slot</option>';
+
+            if (!selectedVehicle) return;
+
+            const availableSlots = slots.filter(slot => {
+
+                const status =
+                    String(slot.status).trim().toLowerCase();
+
+                const type =
+                    String(slot.vehicle_type).trim().toLowerCase();
+
+                const vehicleType =
+                    String(selectedVehicle.vehicle_type)
+                    .trim().toLowerCase();
+
+                return (
+                    ["available", "availble", "availabel"].includes(status)
+                    && type === vehicleType
+                );
+            });
+
+            availableSlots.forEach(slot => {
+                const option = document.createElement("option");
+
+                option.value = slot.slot_id;
+
+                option.textContent =
+                    slot.slot_number + " - " +
+                    slot.vehicle_type + " - " +
+                    (slot.location || "");
+
+                slotDropdown.appendChild(option);
+            });
+
+            if (availableSlots.length === 0) {
+                slotDropdown.innerHTML =
+                    '<option value="">No available matching slots</option>';
+            }
+        });
+
+        document.getElementById("entryForm")
+            .addEventListener("submit", async function (event) {
+
+                event.preventDefault();
+
+                const vehicleId = vehicleDropdown.value;
+                const slotId = slotDropdown.value;
+
+                if (!vehicleId || !slotId) {
+                    showMessage(
+                        "Please select vehicle and parking slot",
+                        "error"
+                    );
+                    return;
+                }
+
+                entryButton.disabled = true;
+                entryButton.textContent = "Processing...";
+
+                try {
+                    const response = await fetch("/api/entry", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            vehicle_id: vehicleId,
+                            slot_id: slotId
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        throw new Error(data.message || "Entry failed");
+                    }
+
+                    showMessage(
+                        data.message || "Vehicle entry successful!",
+                        "success"
+                    );
+
+                    document.getElementById("entryForm").reset();
+
+                    await loadEntryOptions();
+
+                } catch (error) {
+                    showMessage(error.message, "error");
+                    console.error(error);
+
+                } finally {
+                    entryButton.disabled = false;
+                    entryButton.textContent =
+                        "Confirm Vehicle Entry";
+                }
+            });
+
+        loadEntryOptions();
+    </script>
+
+</body>
+</html>

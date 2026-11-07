@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parking Slots | Kaveri Parking</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">K</span><div><strong>KAVERI</strong><small>Parking Management</small></div></div>
+  <div class="nav-label">WORKSPACE</div>
+  <a href="index.html" data-page="dashboard">▦ <span>Dashboard</span></a>
+  <a href="vehicles.html" data-page="vehicles">🚘 <span>Vehicles</span></a>
+  <a href="slots.html" data-page="slots">▤ <span>Parking Slots</span></a>
+  <a href="entry.html" data-page="entry">↘ <span>Vehicle Entry</span></a>
+  <a href="exit.html" data-page="exit">↗ <span>Vehicle Exit</span></a>
+  <a href="history.html" data-page="history">◷ <span>Parking History</span></a>
+  <div class="sidebar-foot">Built with care by <b>Kaveri</b></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><div><div class="eyebrow">KAVERI / PARKING LOT MANAGEMENT</div><h1>Parking Slots</h1></div><div class="top-right"><span class="live-dot"></span><span>Local System</span><span class="avatar">K</span></div></header>
+
+<section class="panel form-panel"><div class="panel-head"><div><h3 id="slotFormTitle">Add Parking Slot</h3><p>Create and maintain parking spaces</p></div></div>
+<form id="slotForm" class="form-grid">
+<input type="hidden" id="slot_id">
+<label>Slot Number<input id="slot_number" placeholder="e.g. C-01" required></label>
+<label>Vehicle Type<select id="slot_vehicle_type" required><option value="">Select type</option><option>Car</option><option>Bike</option></select></label>
+<label>Status<select id="slot_status"><option>Available</option><option>Occupied</option></select></label>
+<div class="form-actions"><button class="btn btn-primary" type="submit" id="slotSave">Save Slot</button><button class="btn btn-secondary" type="button" onclick="resetSlotForm()">Clear</button></div>
+</form></section>
+<section class="panel"><div class="panel-head"><div><h3>Parking Slot List</h3><p>Availability and slot details</p></div><button class="btn btn-secondary btn-small" onclick="loadSlots()">↻ Refresh</button></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Slot Number</th><th>Vehicle Type</th><th>Status</th><th>Actions</th></tr></thead><tbody id="slotsTable"><tr><td colspan="5" class="empty">Loading...</td></tr></tbody></table></div></section>
+
+</main>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>

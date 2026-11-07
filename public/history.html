@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parking History | Kaveri Parking</title><link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="brand"><span class="brand-mark">K</span><div><strong>KAVERI</strong><small>Parking Management</small></div></div>
+  <div class="nav-label">WORKSPACE</div>
+  <a href="index.html" data-page="dashboard">▦ <span>Dashboard</span></a>
+  <a href="vehicles.html" data-page="vehicles">🚘 <span>Vehicles</span></a>
+  <a href="slots.html" data-page="slots">▤ <span>Parking Slots</span></a>
+  <a href="entry.html" data-page="entry">↘ <span>Vehicle Entry</span></a>
+  <a href="exit.html" data-page="exit">↗ <span>Vehicle Exit</span></a>
+  <a href="history.html" data-page="history">◷ <span>Parking History</span></a>
+  <div class="sidebar-foot">Built with care by <b>Kaveri</b></div>
+</aside>
+
+<main class="main">
+<header class="topbar"><div><div class="eyebrow">KAVERI / PARKING LOT MANAGEMENT</div><h1>Parking History</h1></div><div class="top-right"><span class="live-dot"></span><span>Local System</span><span class="avatar">K</span></div></header>
+
+<section class="panel"><div class="panel-head"><div><h3>Parking Records</h3><p>Entry, exit and fee details for all vehicles</p></div><button class="btn btn-secondary btn-small" onclick="loadHistory()">↻ Refresh</button></div><div class="table-wrap"><table><thead><tr><th>Record</th><th>Vehicle</th><th>Owner</th><th>Type</th><th>Slot</th><th>Entry Time</th><th>Exit Time</th><th>Fee</th><th>Status</th></tr></thead><tbody id="historyTable"><tr><td colspan="9" class="empty">Loading...</td></tr></tbody></table></div></section>
+
+</main>
+<div id="toast" class="toast"></div>
+<script src="app.js"></script>
+</body></html>
